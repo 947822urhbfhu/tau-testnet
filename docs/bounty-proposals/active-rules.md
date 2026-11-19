@@ -34,4 +34,4 @@ These receipts are full-node observations. The existing block hash and state com
 
 I propose acceptance tests for the partial replacement above, alternative priority, multiple same-block installations, repeat/revoke/refusal, guarded release, proposer/importer agreement, and queries across restart, head advancement, reorg and missing historical evidence. I’m requesting a decision on the design, the native dependency change and the eligibility of the private work.
 
-[Private testnet observations and remaining limits](https://github.com/947822urhbfhu/tau-testnet/blob/bounty/design-proposals/docs/bounty-proposals/design-evidence.md)
+[Private testnet observations and remaining limits](https://github.com/947822urhbfhu/tau-testnet/blob/bounty/design-proposals/docs/bounty-proposals/design-evidence.md) · [Wallet and operator guide for an installation](https://github.com/947822urhbfhu/tau-testnet/blob/bounty/design-proposals/docs/bounty-proposals/checking-a-rule-installation.md)
