@@ -1,6 +1,8 @@
 ## Bounty 01 · Programmable payments
 
-I’m requesting review of the five-stage design for #34, #35 and #63, based on `main` at `c2b8c47`. I started a private prototype before receiving design approval. It includes auto-split on top of the proposed recipient-controls changes. The program asks builders to keep those workstreams separate. Please confirm whether this timing is acceptable and which branch or stage you would like reviewed first. I understand that the $9,460 reward covers the five stages once all are merged.
+I’m requesting review of the five-stage design for #34, #35 and #63, based on `main` at `c2b8c47`. Codex developed and tested a private prototype on my behalf before design approval. It covers all five stages before any prerequisite stage merged. Work on auto-split also overlapped with recipient controls. Can you consider the submission given that timing and how the tests were run?
+
+If accepted, I propose submitting stage 1 first, then each dependent stage once its prerequisite has merged. I would bring changes to the approved design back here as amendments. The $9,460 is one award after all five merges. The December example has run on a private test network. Please confirm where you want the acceptance demo to run.
 
 ### 1. Payments the network starts · $3,380
 
@@ -40,6 +42,6 @@ A draw requires live principal, an open spending window and room under every cap
 
 Enable stages by agreed governance activation after the preceding stage merges. The condition stages depend on agreed #33 protection for every route that can mutate a restriction. Earlier blocks retain their original state hashes. Commit the payment books, account meters and escrow in consensus state, and restore them through canonical replay. Show wallets the active stage, current terms, next actionable window, actual fee payer and receipts anchored to a block hash.
 
-Proposed limits are 16 instructions per owner per book, 4,096 active entries per book, 16 events per payout rule, 4,096 open events overall, eight payees per rule, and 8 KiB/256 expression nodes per rule. Bound rule evaluations per block and benchmark the worst eligible refund sweep before activation. Stage review would include user and operator docs, native-engine royalties and escrow, cross-chain and stale-term signatures, two relayers racing, same-block cap exhaustion, failed final legs, frozen routes, restart and reorg. I checked the rounding invariant over 2,295,000 gross/share pairs, leap-February rent dates and the example’s calendar boundaries. Prototype verification accompanies the code separately.
+Proposed limits are 16 instructions per owner per book, 4,096 active entries per book, 16 events per payout rule, 4,096 open events overall, eight payees per rule, and 8 KiB/256 expression nodes per rule. Bound rule evaluations per block and benchmark the worst eligible refund sweep before activation. Stage review would include user and operator docs, native-engine royalties and escrow, cross-chain and stale-term signatures, two relayers racing, same-block cap exhaustion, failed final legs, frozen routes, restart and reorg. The checks covered the rounding invariant over 2,295,000 gross/share pairs, leap-February rent dates and the example’s calendar boundaries. Prototype verification accompanies the code separately.
 
 [Private testnet observations and remaining limits](https://github.com/947822urhbfhu/tau-testnet/blob/bounty/design-proposals/docs/bounty-proposals/design-evidence.md)

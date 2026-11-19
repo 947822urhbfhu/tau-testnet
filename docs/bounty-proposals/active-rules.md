@@ -1,6 +1,6 @@
 ## Bounty 02 · Which rules protect this account?
 
-I began a private implementation before receiving maintainer approval. I understand that this can affect eligibility, and I’m asking whether you will consider the work and the design below. The proposal targets `tau-testnet` at `c2b8c47` and its pinned Tau engine at `c3ea334`.
+Codex developed and tested a private implementation on my behalf before maintainer approval. Will you consider the work given that timing and how the tests were run? The proposal targets `tau-testnet` at `c2b8c47` and its pinned Tau engine at `c3ea334`.
 
 ### What a wallet can verify
 
@@ -15,6 +15,8 @@ getrulesnapshot <block_hash> <content_id> [byte_offset]
 The first query returns the genesis hash, block hash, height and active consensus ID. For each account, it reads the outgoing clause and rule-change guard from the same registry used by execution, keyed by normalized public key and target stream. Each installed clause includes its stored UTF-8 body and SHA-256 digest. An empty enforced slot returns `absent`. On this protocol version the incoming role returns `unsupported`. On a node also running the Bounty 03 recipient policy, the query checks its committed activation and reads the recipient’s incoming clause, maximum hold duration in seconds or blocks, and policy digest. A recipient’s outgoing spending limit applies when that recipient spends. The payment lookup checks the parties and adds the amount and release point of an open retractable payment.
 
 For example, Alice can request `getactiverules <Alice> <Bob> --tx <install-hash>`. If the receipt records an installation with digest X and the sender’s current clause has digest Y, the wallet can show “Installed in block 81. Replaced by block 82.” A pending offer or unexecuted guarded change supplies no installation receipt. The same canonical receipt is available from `gettxstatus`.
+
+If programmable grants also land, Alice funding Bob and Bob paying a shop are two different transactions. For a draw, the wallet needs the grant’s remaining principal, time conditions and caps, any shared allowance, Bob’s sending policy and the shop’s receiving policy. The proposed `--payment` option reads existing retractable transfers. The separate programmable-payments lookup reads grants. A wallet combining those responses must match their genesis and block hashes, retry on head movement, and preflight the actual draw. A historical grant lookup would require a separate design.
 
 ### Shared Tau rules after a partial replacement
 
