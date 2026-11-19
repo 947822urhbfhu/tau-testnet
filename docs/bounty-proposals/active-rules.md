@@ -31,3 +31,5 @@ I request review of a read-only native accessor, `current_spec_parts()`. It retu
 These receipts are full-node observations. The existing block hash and state commitment continue to anchor consensus. Deployment requires no new block fields or genesis reset. [Atomic canonical commit](https://github.com/IDNI/tau-testnet/blob/c2b8c47e07342dee01ac27f1380872374e3bf6ff/db.py#L913) · [Authority reconstruction](https://github.com/IDNI/tau-testnet/blob/c2b8c47e07342dee01ac27f1380872374e3bf6ff/tau_authority.py#L236)
 
 I propose acceptance tests for the partial replacement above, alternative priority, multiple same-block installations, repeat/revoke/refusal, guarded release, proposer/importer agreement, and queries across restart, head advancement, reorg and missing historical evidence. I’m requesting a decision on the design, the native dependency change and the eligibility of the private work.
+
+[Private testnet observations and remaining limits](https://github.com/947822urhbfhu/tau-testnet/blob/bounty/design-proposals/docs/bounty-proposals/design-evidence.md)
