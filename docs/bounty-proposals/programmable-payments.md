@@ -1,8 +1,8 @@
 ## Bounty 01 · Programmable payments
 
-I’m requesting review of the five-stage design for #34, #35 and #63, based on `main` at `c2b8c47`. Codex developed and tested a private prototype on my behalf before design approval. It covers all five stages before any prerequisite stage merged. Work on auto-split also overlapped with recipient controls. Can you consider the submission given that timing and how the tests were run?
+This five-stage design for #34, #35 and #63 targets `main` at `c2b8c47`. A private prototype covered all five stages before design approval and before any prerequisite stage merged. Work on auto-split also overlapped with recipient controls.
 
-If accepted, I propose submitting stage 1 first, then each dependent stage once its prerequisite has merged. I would bring changes to the approved design back here as amendments. The $9,460 is one award after all five merges. The December example has run on a private test network. Please confirm where you want the acceptance demo to run.
+The proposed rollout starts with stage 1. Each dependent stage follows once its prerequisite has merged, with changes to the approved design submitted for review as amendments. The program lists one $9,460 award after all five merges. The December example has run on a private test network. Please review the five-stage design, confirm the merge order with recipient controls, and identify the network for the acceptance demonstration.
 
 ### 1. Payments the network starts · $3,380
 

@@ -1,10 +1,10 @@
 ## Bounty 02 · Which rules protect this account?
 
-Codex developed and tested a private implementation on my behalf before maintainer approval. Will you consider the work given that timing and how the tests were run? The proposal targets `tau-testnet` at `c2b8c47` and its pinned Tau engine at `c3ea334`.
+A private prototype and its tests predate maintainer approval. This proposal targets `tau-testnet` at `c2b8c47` and its pinned Tau engine at `c3ea334`.
 
 ### What a wallet can verify
 
-A wallet can install a rule in the first transaction of a block and replace it in the last. Both transactions can succeed. I propose one query for the policy at a canonical chain tip and a receipt for what each transaction actually changed.
+A wallet can install a rule in the first transaction of a block and replace it in the last. Both transactions can succeed. The proposed query shows the policy at a canonical chain tip. A receipt shows what each transaction changed.
 
 ```text
 getactiverules <sender> [recipient] [--payment <id>] [--tx <hash>]
@@ -22,7 +22,7 @@ If programmable grants also land, Alice funding Bob and Bob paying a shop are tw
 
 Suppose the shared program receives `o26=7 && o27=9` followed by `o26=3`. Submitted text includes the superseded value 7. An effective view must expose the surviving 9 and replacement 3. There is also a case where one specification part retains several alternatives. The pinned C++ interpreter can report the last selected alternative or a disjunction before selection. Its existing Python `current_spec()` binding goes through `api::current_spec()`, which prints `current_spec_fm()` and can therefore return a disjunction even after a step. Different inputs can select a different alternative at the same revision. [Interpreter contract](https://github.com/IDNI/tau-lang/blob/c3ea334cd1e6612930ea9f404933211858f0009f/src/interpreter.h#L312) · [Native example with conditional alternatives](https://github.com/IDNI/tau-lang/blob/c3ea334cd1e6612930ea9f404933211858f0009f/tests/unit/test_interpreter_api_extensions.cpp#L427)
 
-I request review of a read-only native accessor, `current_spec_parts()`. It returns each conjunctive specification part with its formulas in the priority order used by the interpreter. A separate `current_selected_spec()` binding exposes the C++ step observation with its time point. An older binding advertises `selected_step_only`, so a wallet can verify its registry slot but must treat the shared policy as partial. Full shared coverage requires building the accessor into the native dependency. Shared formulas include their representation plan and mapping for interned addresses. They describe shared constraints. A verdict for a concrete transfer still requires its inputs and execution history.
+The proposed native accessor, `current_spec_parts()`, is read-only. It returns each conjunctive specification part with its formulas in the priority order used by the interpreter. A separate `current_selected_spec()` binding exposes the C++ step observation with its time point. When the node uses an older binding, it reports `selected_step_only`. The wallet can verify its registry slot and must label the shared view as partial. Full shared coverage requires building the accessor into the native dependency. Shared formulas include their representation plan and mapping for interned addresses. They describe shared constraints. A verdict for a concrete transfer still requires its inputs and execution history.
 
 ### Publication and consistency
 
@@ -32,6 +32,6 @@ I request review of a read-only native accessor, `current_spec_parts()`. It retu
 
 These receipts are full-node observations. The existing block hash and state commitment continue to anchor consensus. Deployment requires no new block fields or genesis reset. [Atomic canonical commit](https://github.com/IDNI/tau-testnet/blob/c2b8c47e07342dee01ac27f1380872374e3bf6ff/db.py#L913) · [Authority reconstruction](https://github.com/IDNI/tau-testnet/blob/c2b8c47e07342dee01ac27f1380872374e3bf6ff/tau_authority.py#L236)
 
-I propose acceptance tests for the partial replacement above, alternative priority, multiple same-block installations, repeat/revoke/refusal, guarded release, proposer/importer agreement, and queries across restart, head advancement, reorg and missing historical evidence. I’m requesting a decision on the design, the native dependency change and the eligibility of the private work.
+The proposed acceptance tests cover partial replacement, alternative priority, multiple installations in one block, repeat installations, revocations, refusals, guarded release and proposer/importer agreement. They also cover restart, head advancement, reorg and missing historical evidence. Please review the wallet contract and the native API changes, and confirm whether the native accessor should land before the node RPCs.
 
 [Private testnet observations and remaining limits](https://github.com/947822urhbfhu/tau-testnet/blob/bounty/design-proposals/docs/bounty-proposals/design-evidence.md) · [Wallet and operator guide for an installation](https://github.com/947822urhbfhu/tau-testnet/blob/bounty/design-proposals/docs/bounty-proposals/checking-a-rule-installation.md)

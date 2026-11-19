@@ -1,6 +1,6 @@
 # Evidence for the critical bounty designs
 
-Codex built and tested both prototypes on the contributor’s behalf before maintainer approval. The payment work covered later stages before their prerequisites merged, and auto-split overlapped with recipient controls. The results below come from private test networks using disposable keys. Eligibility, rollout order and public testnet activation need a decision from Tau. [Bounty program](https://tau.net/bounty-program)
+Both private prototypes and their tests predate maintainer approval. The payment prototype covered later stages before their prerequisites merged, and work on auto-split overlapped with recipient controls. The results below come from private test networks using disposable keys. Tau’s review is requested on the designs, merge order and public testnet activation. [Bounty program](https://tau.net/bounty-program)
 
 ## Programmable payments
 
@@ -23,7 +23,7 @@ The private wallet and operator guide covers fee estimation, standing orders, of
 
 Consider a wallet that pays to install a rule and replaces it in the same block. The final account slot establishes the current protection. Two separate receipts establish what happened to each signed change, including the prior and resulting rule digests and the charged fee. A repeat or a refusal can be distinguished from a replacement.
 
-For shared rules, the native test installs constraints corresponding to outputs 26 and 27 having values 7 and 9, then replaces only the constraint on output 26. The effective values are 3 and 9. A separate native interpreter regression checks a part with multiple alternatives whose priority matters. The older published binding can report a selected-step projection. A full answer requires the proposed ordered-alternatives accessor.
+For shared rules, the native test installs constraints corresponding to outputs 26 and 27 having values 7 and 9, then replaces only the constraint on output 26. The effective values are 3 and 9. A separate native interpreter regression checks a part with multiple alternatives whose priority matters. The older published binding returns a partial view that can still contain a disjunction after a step. A full answer requires the proposed ordered-alternatives accessor.
 
 Two independent server processes observed the same accepted account-policy installation, 10-unit fee, clause digest and block. The follower reproduced the result after restart. A joint test with recipient controls also installed an outgoing clause and a 17-block incoming hold cap in one transaction. The proposer and importer agreed on both installed digests after restart. Additional tests cover a guarded change that never takes effect, reading during a concurrent canonical commit, orphaned pagination cursors and a historical transaction without recorded evidence. The wallet reports missing evidence explicitly. The operator guide describes the native build, retention, readiness and recovery. [Active-rule design](active-rules.md) · [Wallet capability requested in #42](https://github.com/IDNI/tau-testnet/issues/42)
 

@@ -1,6 +1,6 @@
 # Which rules protect this payment?
 
-**Status.** This is reviewer documentation for Bounty 02. Codex developed and tested a private prototype on the contributor’s behalf before maintainer approval. The proposal asks Tau to decide eligibility and review the node and native API changes. The proposed commands below require that prototype. The upstream examples use public revision `c2b8c47`. [Bounty 02 and review discussion](https://github.com/IDNI/tau-testnet/issues/42)
+This walkthrough covers the existing wallet queries at upstream revision `c2b8c47` and the proposed Bounty 02 commands. The latter ran on a private prototype before design approval. The proposal requests maintainer review of the node and native API changes. [Bounty 02 and review discussion](https://github.com/IDNI/tau-testnet/issues/42)
 
 ## What an upstream wallet can check today
 
