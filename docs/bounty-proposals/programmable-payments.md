@@ -1,0 +1,43 @@
+## Bounty 01 · Programmable payments
+
+I’m requesting review of the five-stage design for #34, #35 and #63, based on `main` at `c2b8c47`. I started a private prototype before receiving design approval. It includes auto-split on top of the proposed recipient-controls changes. The program asks builders to keep those workstreams separate. Please confirm whether this timing is acceptable and which branch or stage you would like reviewed first. I understand that the $9,460 reward covers the five stages once all are merged.
+
+### 1. Payments the network starts · $3,380
+
+**Standing payments (#34).** The owner signs the recipient, amount, first due date, cadence, execution window and end condition. The end can be a date, payment count, total amount or an explicit instruction to continue until cancelled. Creation reserves no balance. Monthly rent on the 31st falls on the last day in a shorter month. The window is `[due, min(due + window, next_due))` in UTC. Anyone can submit the due occurrence while the wallet is offline. Missed windows lapse. Lack of funds or a policy refusal leaves the occurrence unpaid and retryable until its window closes. Concurrent execution and cancellation follow block order.
+
+A new instruction transaction signs the genesis hash, signer, sequence, deadlines, fee cap and action. Its creation ID commits to the original terms. Later updates name their expected version and prior terms digest. They retain paid occurrences and cumulative spend. Changing the cadence requires a new authorization. The keeper uses their own sequence. A co-signing policy receives a filled approval slot only after the node verifies the approver’s signature on the exact action, chain, instruction version, prior terms, occurrence, amount, recipient and expiry. An administrative approval cannot authorize a debit. A change to protected terms must satisfy the previous administration guard, including revocation checks on replacement. Delegated policy administration alone confers no spending authority.
+
+**Receive routes (#35).** An account signs one valid non-self BLS destination, a share of 1–9,000 basis points, optional minimum gross, activation and expiry. A 20% route on 101 credits 20 to savings and 81 to the original payee. Use integer floor division. The sender pays the ordinary fee once. Apply the split to ordinary, approval-completed, standing and calculated payments. Derived credits, fees, faucet issuance and refunds cannot trigger another split. A bound route requires an expiry and cannot be removed unilaterally during its lock.
+
+For immediate credits, check the original recipient’s policy on gross and the destination’s policy on the routed share. The routing account is the sender of the secondary leg. A refusal declines the whole payment. For new retractable payments, check both recipients’ applicable hold caps at park and freeze the split. Retraction before maturity returns the full principal to the original payer. At maturity the two committed legs settle without re-evaluating new policies. Existing parks release under their original terms. Agree this credit path and upstream merge order with the recipient-controls maintainers.
+
+**Rule-computed payouts (#63).** The owner signs up to eight permitted payees, one typed amount expression per payee, and caps per execution, period and lifetime. Zero omits a recipient. A bounded expression can read the confirmed gross, add amounts or multiply by a fraction with floor rounding. Check 64-bit intermediate bounds and the existing 24-bit transfer width. Evaluate isolated native Tau outputs against the owner’s expressions.
+
+For a 5% royalty, an authorized buyer signs a sale payment naming the rule. Recording the actual gross and crediting the merchant happen together. The keeper names the recorded event and cannot supply the price. Pay from the merchant’s available funds, then consume the event exactly once. For escrow, the owner funds a single settlement and names an attestor. A verified attestation admits release to the signed payees. Residual or expired escrow returns to the owner. Refuse terms changes while events remain open. A full event book refuses a new tagged payment before funds move.
+
+**Fees and spend accounting.** The owner pays setup and update fees. The keeper pays the execution fee, estimated from `o8` and `o9` on the real principal legs. Aggregate debits before checking funds if keeper and owner coincide. Commit balances, fees, event consumption and spend counters together. Count each economic payer’s total principal once. Fees, route outputs and returning escrow add zero spend. The wallet can query daily and weekly totals. An opt-in account clause reads prior UTC day spend (`i28`), prior Monday-based week spend (`i29`) and the whole candidate amount (`i30`), all `bv[64]`. Its `o5:bv[24]` verdict runs in a private evaluator. Existing custom stream assignments keep their meanings. Earlier successful payments in the same block reduce headroom. This proposes the accounting needed for #34 while #31 remains open.
+
+### 2. Spending limits · $1,420
+
+Alice funds an identified grant for Bob. Only Bob can sign a draw from that escrow to a destination. Check Alice’s policy at funding and Bob’s outgoing and the destination’s incoming policies at draw. Draw fees come from Bob’s unrestricted balance. If Bob has declared a recipient hold cap, require his signature on the exact grant terms, funding transaction and chain before accepting restricted money. Changing his wallet rules cannot release Alice’s escrow to Bob’s ordinary balance.
+
+Support a cap per grant, a per-payment maximum and an allowance shared across grants for the same grantor and grantee. Check all applicable meters against gross. Days and months start at 00:00 UTC, weeks on Monday. A fixed period signs both its duration and epoch. The first successful draw in a new period resets its meter. A refused draw changes none. A shared allowance stays in place while funded grants reference it.
+
+### 3. Time restrictions · $1,380
+
+Use the validated block-header timestamp. The effective start is the later of the absolute start and funding time plus the relative hold. Add optional weekday masks and half-open UTC time bands. A Friday-night-to-Saturday-morning rule can use two bands with different weekday masks. Reject a grant whose allowed windows all fall outside its lifetime. A preflight identifies its head and candidate time. Inclusion uses the actual block position.
+
+### 4. Refunds · $1,520
+
+Alice can sign an absolute expiry, a duration from funding, or a maximum idle interval since funding or the last successful draw. The earliest deadline wins. At the deadline, refuse draws and return unspent principal to Alice in the post-transaction sweep. The funding fee covers settlement. No fee is collected from the refund, as with the existing retractable release. Order grants due together by deadline and ID, and wake the miner for an eligible expiry on an idle chain.
+
+### 5. Combined conditions · $1,760
+
+A draw requires live principal, an open spending window and room under every cap. Expiry takes precedence. For the testnet demo, Alice sends 5,000, caps Bob at 500 per UTC week, opens the grant on December 1, 2026 and sets expiry for December 14. A November 30 draw fails. On December 1, draws of 300 and 200 succeed and an extra unit fails. Another 500 succeeds on Monday December 7. At 00:00 UTC December 14, Alice gets 4,000 back. Show balances and fees separately on two synced nodes.
+
+### Activation and acceptance
+
+Enable stages by agreed governance activation after the preceding stage merges. The condition stages depend on agreed #33 protection for every route that can mutate a restriction. Earlier blocks retain their original state hashes. Commit the payment books, account meters and escrow in consensus state, and restore them through canonical replay. Show wallets the active stage, current terms, next actionable window, actual fee payer and receipts anchored to a block hash.
+
+Proposed limits are 16 instructions per owner per book, 4,096 active entries per book, 16 events per payout rule, 4,096 open events overall, eight payees per rule, and 8 KiB/256 expression nodes per rule. Bound rule evaluations per block and benchmark the worst eligible refund sweep before activation. Stage review would include user and operator docs, native-engine royalties and escrow, cross-chain and stale-term signatures, two relayers racing, same-block cap exhaustion, failed final legs, frozen routes, restart and reorg. I checked the rounding invariant over 2,295,000 gross/share pairs, leap-February rent dates and the example’s calendar boundaries. Prototype verification accompanies the code separately.
