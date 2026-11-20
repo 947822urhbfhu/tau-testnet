@@ -1,0 +1,46 @@
+{
+  "genesis_version": 1,
+  "network_id": "payments-private-demo",
+  "protocol_version": "2.0.0",
+  "block_0": {
+    "header": {
+      "block_number": 0,
+      "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "timestamp": 0,
+      "merkle_root": "0000000000000000000000000000000000000000000000000000000000000000",
+      "state_hash": "1f81f22ffacc799e35388bbc521cc5d96c05802d9912f952d7191670fabe2fc3",
+      "proposer_pubkey": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "transactions": [],
+    "consensus_proof": {},
+    "hash": "67a35035a5b995bfa6a13b248a48314b8c6917e3200d2743143e7095e99f1279"
+  },
+  "consensus_rules": "# Tau-Driven Consensus v1 Interface\n#\n# i6: Block height\n# i7: Block timestamp\n# i8: Proposer identity (yid)\n# i9: Previous block hash (yid)\n# i10: Host proof validity (1 for valid, 0 for invalid)\n# i11: Claims summary (yid)\n#\n# o6: Block validity\n# o7: Proposer eligibility\n\n# Initial V1 Rule:\n# All authorized proposals handled by host PoA are considered eligible (o7 = 1)\n# Blocks are valid strictly if the host cryptographically verifies the proof (o6 = i10)\nalways (\n    o6[t]:bv[16] = i10[t]:bv[16] &&\n    o7[t]:bv[16] = { 1 }:bv[16]\n &&\n    o9[t]:bv[24] = { #x00000a }:bv[24]\n)\n",
+  "application_rules": "((!(i0[t] = 0)) ? ( u[t] = i0[t] && o0[t] = 0 ) : o0[t] = 1)\n",
+  "accounts_state": {
+    "f427fbf4cb8cc5ebcfc50add98ba574b94c03b1e32626e2e50cf60ba5e0a6d0c42d3ed702c2e0eeef7fae29bc4f3d2f9": 1000000,
+    "b62f623678aba6bb7726d5cfd101c8d9d854495e153f6284e58dbfe62ebe1b01805562516cfc764a8a23a532744bd227": 10000,
+    "b4458cd0aad1aa7e37d6c35bb0b10cb25f5e25b04908973e1b35c78cca9a2222a42822118a84013f662d9b9be6f09f94": 10000,
+    "8c3c2e69b32339e257ae7f454c7bbd2792435847afa7dc617d6b7b32ef7aadff987fc25c702f3fb551b9aa9154a2c0be": 10000,
+    "b4dfa7a62ee70e3823bcb0a595ade0ed0b20c7609227fe6170e398913b1d622be6bca7e1b6f18f2354aed24cd5071f25": 10000
+  },
+  "consensus_meta": {
+    "proof_scheme": "bls_header_sig",
+    "fork_choice_scheme": "height_then_hash",
+    "input_contract_version": 1,
+    "active_validators": [
+      "83d60f7d2a7d55e290736cbb352ab0943da8e968a0c0dc205592c2a3f52bb044ecff8605af35d3384584bf6ae8ce2d55"
+    ],
+    "pending_updates": [],
+    "vote_records": [],
+    "activation_schedule": [],
+    "checkpoint_references": [],
+    "mechanism_specific_metadata": {
+      "vote_quorum": "supermajority",
+      "approval_slots_active": true,
+      "programmable_payments_stage": 5,
+      "programmable_payments_root": "116bee0fc3ac8e09964b2a0539fa88b1449b608df335ec7724c2d5dc2cc87c65",
+      "retractable_transfers_root": "227f3389139ae7138cc8900312e884a77597a0e22a8c8604a63305a4c92c6131"
+    }
+  }
+}
